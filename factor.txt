@@ -1,0 +1,29 @@
+addi $t0,$zero,26
+addi $a0,$zero,-26
+
+LOOP:
+addi $t0,$t0,-1
+addi $a0,$a0,1
+addi $v0,$zero,1
+beq $t0,$v0,END_LOOP
+
+addi $s0,$zero,1
+FACTOR:
+add $t1,$t0,$zero
+addi $s0,$s0,1
+SUBTRACT:
+sub $t1,$t1,$s0
+beq $t1,$zero,END_FACTOR
+slt $v1,$t1,$zero
+bne $v1,$zero,FACTOR
+j SUBTRACT
+
+END_FACTOR:
+add $a1,$a0,$sp
+sb $s0,0($a1)
+j LOOP
+
+END_LOOP:
+add $a1,$a0,$sp
+addi $s0,$zero,1
+sb $s0,0($a1)
